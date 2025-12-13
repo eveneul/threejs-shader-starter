@@ -7,7 +7,7 @@ type ResizeOptions = {
 };
 
 export function createResize(
-  camera: THREE.PerspectiveCamera,
+  camera: THREE.Camera,
   renderer: THREE.WebGLRenderer,
   options: ResizeOptions = {}
 ) {
@@ -26,22 +26,24 @@ export function createResize(
     const { width, height } = getSize();
     const dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
 
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-
     renderer.setPixelRatio(dpr);
-    renderer.setSize(width, height);
+    renderer.setSize(width, height); // updateStyle true
 
+    if (camera instanceof THREE.PerspectiveCamera) {
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      return;
+    }
+
+    if (camera instanceof THREE.OrthographicCamera) {
+      camera.left = -width / 2;
+      camera.right = width / 2;
+      camera.top = height / 2;
+      camera.bottom = -height / 2;
+      camera.updateProjectionMatrix();
+      return;
+    }
     onResize?.({ width, height, dpr });
-
-    console.log({
-      cssCanvas: {
-        w: renderer.domElement.clientWidth,
-        h: renderer.domElement.clientHeight,
-      },
-      buffer: { w: renderer.domElement.width, h: renderer.domElement.height },
-      calc: { width, height, dpr },
-    });
   }
 
   // 컨테이너가 있으면 ResizeObserver가 더 정확함 (레이아웃 변동 때문에)
