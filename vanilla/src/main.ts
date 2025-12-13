@@ -10,7 +10,6 @@ const { scene, camera, renderer } = initThree(canvas);
 
 const experience = createExperience(scene);
 const raf = createRef();
-
 raf.add((dt) => {
   experience.update(dt);
   renderer.render(scene, camera);

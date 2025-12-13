@@ -29,21 +29,10 @@ export function createCamera(options: CreateCameraOptions = {}) {
 
   if (type === "orthographic") {
     const zoom = orthographic?.zoom ?? 1;
-
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-
-    const camera = new THREE.OrthographicCamera(
-      -width / 2,
-      width / 2,
-      height / 2,
-      -height / 2,
-      near,
-      far
-    );
+    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    camera.position.z = 1;
 
     camera.zoom = zoom;
-    camera.position.set(...position);
     camera.updateProjectionMatrix();
 
     return camera;

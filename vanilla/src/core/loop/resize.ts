@@ -36,10 +36,6 @@ export function createResize(
     }
 
     if (camera instanceof THREE.OrthographicCamera) {
-      camera.left = -width / 2;
-      camera.right = width / 2;
-      camera.top = height / 2;
-      camera.bottom = -height / 2;
       camera.updateProjectionMatrix();
       return;
     }

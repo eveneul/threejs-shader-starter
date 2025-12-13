@@ -5,7 +5,11 @@ import { createRenderer } from "./createRenderer";
 
 export function initThree(canvas: HTMLCanvasElement) {
   const scene = createScene();
-  const camera = createCamera();
+  const camera = createCamera({
+    type: "orthographic",
+    orthographic: { zoom: 1 },
+    position: [0, 0, 1],
+  });
   const renderer = createRenderer({ canvas });
 
   return {
