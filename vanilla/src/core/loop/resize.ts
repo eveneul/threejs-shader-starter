@@ -30,9 +30,18 @@ export function createResize(
     camera.updateProjectionMatrix();
 
     renderer.setPixelRatio(dpr);
-    renderer.setSize(width, height, false); // false: 캔버스 사이지는 건드리지 않음
+    renderer.setSize(width, height);
 
     onResize?.({ width, height, dpr });
+
+    console.log({
+      cssCanvas: {
+        w: renderer.domElement.clientWidth,
+        h: renderer.domElement.clientHeight,
+      },
+      buffer: { w: renderer.domElement.width, h: renderer.domElement.height },
+      calc: { width, height, dpr },
+    });
   }
 
   // 컨테이너가 있으면 ResizeObserver가 더 정확함 (레이아웃 변동 때문에)
